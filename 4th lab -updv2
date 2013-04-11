@@ -18,7 +18,7 @@ void main()
 	char choosetime;
 	char cymbol = 254, nb = '\n';
 	choseme:
-	printf("Choose what to do\nPress 1 to add entity\nPress 2 to view/delete records");
+	printf("Choose what to do\nPress 1 to add entity\nPress 2 to view/delete records\nPress 3 to use special task\n");
 	scanf("%c",&choosetime);
 	switch (choosetime){
 	case '1':
@@ -165,15 +165,15 @@ char strs[MAXBUFLEN];
 	while (trus==true){			
 			if(strs[i]==cymbol){cymbcnt++;tempd=cymbcnt;}
 			if(tempd%3==zze)/*Proverka na nomer kontinenta*/{tempd=0;adresses = strs[i+12]-48;insidetrus=true;}
-			if(adresses == continents){ii=i+12+15;it0=0;
+			if(adresses == continents){ii=i+12+15;it0=0;countryentries=countryentries+1;
 			while(insidetrus==true){conten[it0]=strs[ii];it0++;ii++;
 			if(strs[ii]==cymbol || strs[ii]=='\0'){insidetrus=false;
-			avgsum=avgsum+atoi(conten);ii=0;it0=0;countryentries++;adresses++;}
+			avgsum=avgsum+atoi(conten);ii=0;it0=0;adresses++;}
 			}}
 			i++;
 	if(str[i]=='\0'){trus=false;}}
-	printf("%i",avgsum);
-
+	avgsum=avgsum/countryentries;
+	printf("\n\n\nAverage citizen count in countries of this contenent %i = %i , total countries in that segment %i\n\n\nPress Any key to return to main menu",continents,avgsum,countryentries);
 	getch();
 goto choseme;
 ////////////////////////////////////////////////////////////////

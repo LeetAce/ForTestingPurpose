@@ -1,0 +1,179 @@
+#include <stdio.h>
+#include <conio.h>
+#include <iostream>
+#include <string>
+#include <iterator>
+
+#define MAXBUFLEN 100000
+struct contunt
+{
+    char country[20];
+    int pplcount[255];
+    int cont[1];
+};
+void main()
+{
+//////////////////////////////////////////////////////////////////
+  
+	char choosetime,choosetime2,tempdel[255];
+	char cymbol = 254;
+	choseme:
+	printf("Choose what to do\nPress 1 to add entity\nPress 2 to view/delete records");
+	scanf("%c",&choosetime);
+	switch (choosetime){
+	case '1':
+		system("cls");
+            goto adding;
+           break;
+         case '2':
+			 system("cls");
+            goto listing;
+			break;
+         default:
+            system("cls");
+			goto choseme;
+			break;
+	}
+
+//////////////////////////////////////////////////////////////////
+adding:
+	int n,i;
+	char temp[255];
+	printf("Enter number of entities to add>"); 
+	scanf("%i",&n);
+	contunt* cnt=new contunt[n];
+		for (int i=0;i<n;i++)
+		{
+			getchar();
+			printf("\n\nCountry: ");
+			gets(cnt[i].country);
+			printf("\nPeopleCount: ");
+			scanf("%i",&cnt[i].pplcount);
+			printf("\nContinent (1-6): ");
+			scanf("%i",&cnt[i].cont);
+		}
+	char str[MAXBUFLEN];
+	i=0;
+	
+	FILE *fp;
+	if((fp=fopen("test.dat","r"))==0)
+		printf("Error!\n");
+	else
+	{
+		while(!feof(fp))
+		{
+			char c=getc(fp);
+			if (!feof(fp))
+			str[i]=c;
+			i++;
+			str[i+1]='\0';
+		}
+		fclose(fp);
+	}
+	FILE *fp2;
+	fp2=fopen("test.dat","w");
+	fputs(str,fp2);
+	for (int i=0;i<n;i++)
+	{	
+		char temp2[255] = {"Country name: "};
+		char temp3[255] = {"Population: "};
+		char temp4[255] = {"Continent: "};
+
+		fputc(cymbol,fp2);
+		fputs(temp2,fp2);
+		fputs(cnt[i].country,fp2);
+		fputc(cymbol,fp2);
+		itoa(*cnt[i].pplcount,temp,10);
+		fputs(temp3,fp2);
+		fputs(temp,fp2); //Ppl count
+		fputc(cymbol,fp2);
+		fputs(temp4,fp2);
+		itoa(*cnt[i].cont,temp,10);
+		fputs(temp,fp2); //continent
+		
+	}
+	fclose(fp2);
+system("cls");
+//////////////////////////////////////////////////////////////////
+listing:
+		int check = (-1),checkforspace=0,checknumber=1;
+	FILE *fp3;
+	if((fp3=fopen("test.dat","r"))==0)
+		printf("Error!\n");
+	else
+	{
+		while(!feof(fp3))
+		{
+			char c=getc(fp3);
+			if (!feof(fp3))
+				if (c==cymbol)
+					{checkforspace++;check++;
+			if (check == 0){printf("     -%i- ",checknumber);};
+			if (check % 3==0 && check != 0){checknumber++;printf("\n\n");printf("     -%i- \n",checknumber);}
+				else if (checkforspace>0) printf("\n");}
+				else printf("%c",c);
+				
+		}
+		fclose(fp3);
+	}
+	printf("\n\n\nPress 1 to get back to the main menu\nPress 2 to delete specific entity: ");
+scanf(" %c",&choosetime);
+switch (choosetime){
+case '1' :
+	system("cls");
+	goto choseme;
+	break;
+case '2' :
+	goto deleting;
+	break;}
+////////////////////////////////////////////////////////////////
+deleting:
+char strs[MAXBUFLEN];
+	i=0;	
+	FILE *fpz;
+	if((fpz=fopen("test.dat","r"))==0)
+		printf("Error!\n");
+	else
+	{
+		while(!feof(fpz))
+		{
+			char c=getc(fpz);
+			if (!feof(fpz))
+			strs[i]=c;
+			i++;
+			strs[i+1]='\0';
+		}
+		fclose(fpz);
+	}
+
+	int which=0;
+	printf("\n\n\nType in the number of entiny which you would like to remove: ");
+	scanf(" %i",&which);
+	
+	int wheresend=(which*3)+1;
+	int wheresstart=wheresend-3;
+	int cymbcnt=0,startpos=0,endpos=0;
+	if (which==1){endpos=1;};
+	int len = strlen(strs);
+	bool trus=true;
+	int qeta=0;
+	while (trus==true){
+			if(strs[qeta]==cymbol){
+			cymbcnt++;
+			if(cymbcnt==wheresstart){startpos=qeta;};
+			if(cymbcnt==wheresend){endpos=(endpos+qeta)-1;trus=false;};};
+			qeta=qeta+1;}
+	////printf(" %i,%i,%i,%i",wheresend,wheresstart,startpos,endpos);
+	////getch();
+	std::string strx = strs;
+	int lenofsymb = endpos-startpos;
+	strx.erase(startpos, lenofsymb);
+	char* typeitall = new char[len + 1];
+	typeitall = (char*)strx.c_str();
+	FILE *fpx;
+	fpx=fopen("test.dat","w");
+	fputs(typeitall,fpx);
+	fclose(fpx);
+system("cls");
+goto listing;
+}

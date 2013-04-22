@@ -1,0 +1,82 @@
+#include<iostream>
+#include<stdio.h>
+#include<conio.h>
+#include<Windows.h>
+using namespace std;
+struct Entity
+{
+  char name[16];
+	int continent;
+	int population;
+};
+int choice;
+void enter(Entity *z){
+	system("cls");
+	cout <<"Name of the country: ";
+	cin >> z->name;
+	cout <<"Continent: ";
+	cin >> z->continent;
+	cout <<"Population: ";
+	cin >> z->population;}
+void writing(){
+	system("cls");
+	int n;
+	cout<<"How much entities to add";
+	cin>> n;
+		Entity* cnt=new Entity[n];
+	for (int i=0;i<n;i++)
+	{
+		enter(&cnt[i]);
+	}
+	FILE *file = fopen( "Entity.bin", "a+b" );
+	fwrite(cnt,sizeof(Entity),n,file);
+	fclose(file);
+	cout<<"\n\n\n\nType 1 to add entities\nType 2 to view entities\nType 3 for special task(counting avg. population in selected continent: ";
+	cin>>choice;
+}
+void special(){
+			system("cls");
+			int specialchoice,total=0,i=0;
+			cout<<"Type from which continent to do the special task: ";
+			cin>>specialchoice;
+			FILE *file = fopen( "Entity.bin", "a+b" );
+			Entity q;
+			while(fread(&q, sizeof q, 1, file)) {
+				if  (q.continent==specialchoice){total+=q.population;cout<<q.name;cout<<" = ";cout<<q.population;cout<<"\n";i++;}};
+			if (i==0){cout<<"No countries with such continent";}
+			else {total/=i;printf("\n\nCountries with continent %i: %i \nTotal average population is: %i",specialchoice,i,total);};
+			fclose(file);
+			cout<<"\n\n\n\nType 1 to add entities\nType 2 to view entities\nType 3 for special task(counting avg. population in selected continent: ";
+			cin>>choice;		
+}
+void listing() {
+	system("cls");
+	Entity q;
+	int i = 1;
+	FILE *file = fopen( "Entity.bin", "a+b" );
+	  while(fread(&q, sizeof q, 1, file)) {
+	  printf("Country Number: %i\n",i);i++;
+	  printf("Name: %s\n", q.name);
+	  printf("Continent: %i\n", q.continent);
+	  printf("Population: %i\n\n", q.population);}
+	  printf("\n\nTotal Countries: %i",i-1);
+	  cout<<"\n\n\n\nType 1 to add entities\nType 2 to view entities\nType 3 for special task (counting avg. population in selected continent): ";
+	  cin>>choice;
+}
+void main(){
+	cout<<"Type 1 to add entities\nType 2 to view entities\nType 3 for special task(counting avg. population in selected continent: ";
+	cin>>choice;
+	
+	while (choice!=0){
+		
+		switch (choice){
+		case 1:
+			writing();break;
+		case 2:
+			listing();break;
+		case 3:
+			special();break;
+		default:exit (choice);
+		}		
+	}
+}

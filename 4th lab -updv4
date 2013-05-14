@@ -21,6 +21,7 @@ void enter(Entity *z){
 	// 1 name 1 entry check
 	Entity q;
 	cin >> nchar;
+	if(nchar[0]>='a'){nchar[0]=nchar[0]-32;};
 	int i = 0;
 	openitup();
 	int cnt=0,cnt3=0,cnt4=0,cnt2=0;
@@ -31,8 +32,8 @@ void enter(Entity *z){
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<cnt){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
-		if (n==cnt){truth=false;};
+		while(n<cnt){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
+		if (n==cnt){truth=false;strcpy(z->name,nchar);};
 	};
 
 	cout <<"Continent: ";
@@ -96,11 +97,14 @@ void writing(){
 }
 void special(){
 			int choicet = 0;
+			bool passs=true;
 			system("cls");
 			int specialchoice,total=0,i=0;
 			specprnt();
-			
-			cin>>choicet;
+			char nchar[255];
+			cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	sscanf(nchar, "%4d", &choicet);}
 			switch(choicet){
 			case 1 : {
 				total=NULL;
@@ -128,7 +132,12 @@ void special(){
 			case 2 : {
 				system("cls");
 				cout<<"Type from which continent to do the special task: ";
-				cin>>specialchoice;
+				int num;
+				bool passs=true;
+				cin>>nchar;
+				while(passs!=false){if (nchar[0]>'0' && nchar[0]<'7' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+				sscanf(nchar, "%4d", &num);}
+				specialchoice = num;
 				openitup();
 				Entity z;
 				while(fread(&z, sizeof z, 1, file)) {
@@ -137,12 +146,11 @@ void special(){
 				else {total/=i;printf("\n\nCountries with continent %i: %i \n",specialchoice,i);};
 				fclose(file);
 				prnt();
-				int num;
-	bool passs=true;
-	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
-	sscanf(nchar, "%4d", &num);}
-	choice = num;
+				passs=true;
+				cin>>nchar;
+				while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+				sscanf(nchar, "%4d", &num);}
+				choice = num;
 					 }
 					 break;
 		case 3 : {
@@ -200,10 +208,11 @@ case 1: {cout<<"Type in new name: ";
 		cout <<"Name of the country: ";
 	// 1 name 1 entry check
 	cin >> nchar;
+	if(nchar[0]>='a'){nchar[0]-=32;};
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<counts){if (strncmp (ss[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
+		while(n<counts){if (strncmp (ss[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
 		if (n==counts){truth=false;strcpy(ss[id].name,nchar);};
 	};}break;
 
@@ -269,10 +278,11 @@ case 1: {cout<<"Type in new name: ";
 
 		// 1 name 1 entry check
 	cin >> nchar;
+	if(nchar[0]>='a'){nchar[0]-=32;};
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<counts){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
+		while(n<counts){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
 		if (n==counts){truth=false;strcpy(s[id].name,nchar);};
 	};}break;
 

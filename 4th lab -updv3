@@ -1,0 +1,569 @@
+#define _CRT_SECURE_NO_WARNINGS
+#include<iostream>
+#include<stdio.h>
+#include<conio.h>
+#include<Windows.h>
+#include "the_file.h"
+FILE *file;
+using namespace std;
+char nchar[255];
+struct Entity
+{
+	char name[255];
+	int continent;
+	int population;
+	char code[6];
+};
+int choice; 
+void enter(Entity *z){
+	system("cls");
+	cout <<"Name of the country: ";
+	// 1 name 1 entry check
+	Entity q;
+	cin >> nchar;
+	int i = 0;
+	openitup();
+	int cnt=0,cnt3=0,cnt4=0,cnt2=0;
+	  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+	  Entity* s = new Entity[cnt];
+	  rewind(file);
+	  while(fread(&q, sizeof q, 1, file)) {s[cnt2]=q;cnt2++;}fclose(file); 
+	  bool truth = true;
+	  int n=0;
+	while(truth!=false){
+		while(n<cnt){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
+		if (n==cnt){truth=false;};
+	};
+
+	cout <<"Continent: ";
+	// Check for continent correctivity
+	char zcn[255];bool trus=true;
+	cin >> zcn;
+	while(trus!=false){if (zcn[0]<='6' && zcn[0]>='1' && zcn[1]=='\0'){trus=false;} else {cout<<"\nThe continent may be only int from 1 (one) to 6 (six): ";cin>>zcn;};}
+	int num;
+	sscanf(zcn, "%4d", &num);
+	z->continent=num;
+	cout <<"Population: ";
+	//Check for population correctivity
+	trus=false;
+	char zcn2[255];
+	cin>>zcn2;
+	while(trus!=true){
+	int i;
+		int len = strlen(zcn2);
+    for (i = 0; i < len; i++)
+    {
+		if (len==1)	{cin>>zcn2;i=-1;len=strlen(zcn2);}
+		else if (!isdigit(zcn2[i])){cin>>zcn2;i=0;len=strlen(zcn2);};
+    }trus=true;};
+sscanf(zcn2, "%4d", &num);
+	z->population=num;
+	cout <<"Country Code: ";
+	//CODE correctivity
+	char gent[7];
+	bool wont = true;
+	cin>>gent;
+	while (wont!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wont=false;}};
+	strcpy(z->code,gent);
+	};
+void writing(){
+	system("cls");
+	int n;char nchar[255];
+	cout<<"How much entities to add: ";
+	int numm;
+	bool pass=true;
+	cin>>nchar;
+	while(pass!=false){if (nchar[0]>='0' && nchar[0]<='5' && nchar[1]=='\0'){pass=false;} else {cout<<"\nThe ability to create one entities at a time is set to 5: ";cin>>nchar;};
+	
+	sscanf(nchar, "%4d", &numm);}
+	n = numm;
+		Entity* cnt=new Entity[n];
+	for (int i=0;i<n;i++)
+	{
+		enter(&cnt[i]);
+		cout<<"\n";	
+	}
+	openitup();
+	fwrite(cnt,sizeof(Entity),n,file);
+	fclose(file);
+	prnt();
+	int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+}
+void special(){
+			int choicet = 0;
+			system("cls");
+			int specialchoice,total=0,i=0;
+			specprnt();
+			
+			cin>>choicet;
+			switch(choicet){
+			case 1 : {
+				total=NULL;
+				cout<<"Type from which continent to do the special task: ";
+				cin>>specialchoice;
+				openitup();
+				Entity q;
+				while(fread(&q, sizeof q, 1, file)) {
+					if  (q.continent==specialchoice){total+=q.population;cout<<q.name;cout<<" = ";cout<<q.population;cout<<"\n";i++;}};
+				if (i==0){cout<<"No countries with such continent";}
+				else {total/=i;printf("\n\nCountries with continent %i: %i \nTotal average population is: %i",specialchoice,i,total);};
+				fclose(file);
+				
+				prnt();
+				int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+				system("cls");
+				total=NULL;
+					}
+					 break;
+			case 2 : {
+				system("cls");
+				cout<<"Type from which continent to do the special task: ";
+				cin>>specialchoice;
+				openitup();
+				Entity z;
+				while(fread(&z, sizeof z, 1, file)) {
+					if  (z.continent==specialchoice){total+=total;cout<<z.name;cout<<"\n";i++;}};
+				if (i==0){cout<<"No countries with such continent";}
+				else {total/=i;printf("\n\nCountries with continent %i: %i \n",specialchoice,i);};
+				fclose(file);
+				prnt();
+				int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+					 }
+					 break;
+		case 3 : {
+			char specialchoice;
+				system("cls");
+				cout<<"Type the first letter of the country: ";
+				cin>>specialchoice;
+				if (specialchoice>='a'){specialchoice-=32;} 
+				openitup();
+				Entity z;
+				while(fread(&z, sizeof z, 1, file)) {
+					if  (z.name[0]==specialchoice){total+=total;cout<<z.name;cout<<"\n";i++;}};
+				if (i==0){cout<<"No countries with such first letter";}
+				else {total/=i;printf("\n\nCountries with such first letter %c: %i \n",specialchoice,i);};
+				fclose(file);
+				prnt();
+				int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+						}
+						break;
+			}
+
+}
+void editing1(int counts,int id){
+	id=id-1;
+Entity z;
+int tempi=0;
+int choic;
+Entity tempe;
+cout<<"1 to change name\n2 to change continent\n3 to change population\n4 to change the country code: ";
+Entity* ss= new Entity[counts];
+openitup();
+while(fread(&z, sizeof z, 1, file)) {ss[tempi]=z;tempi++;};
+fclose(file);
+
+	int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'5' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choic = num;
+
+
+switch(choic){
+case 1: {cout<<"Type in new name: ";
+
+
+
+	//cin>>qq;editing2(s,counts,qq);}}}break;
+		cout <<"Name of the country: ";
+	// 1 name 1 entry check
+	cin >> nchar;
+	  bool truth = true;
+	  int n=0;
+	while(truth!=false){
+		while(n<counts){if (strncmp (ss[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
+		if (n==counts){truth=false;strcpy(ss[id].name,nchar);};
+	};}break;
+
+case 2: {cout<<"Type in new continent: ";
+	// Check for continent correctivity
+	char zcn[255];bool trus=true;
+	cin >> zcn;
+	while(trus!=false){if (zcn[0]<='6' && zcn[0]>='1' && zcn[1]=='\0'){trus=false;} else {cout<<"\nThe continent may be only int from 1 (one) to 6 (six): ";cin>>zcn;};}
+	int num;
+	sscanf(zcn, "%4d", &num);
+	tempe.continent=num;
+	ss[id].continent = tempe.continent;}break;
+case 3: {cout<<"Type in new population: ";
+	//Check for population correctivity
+	bool trus=false;
+	char zcn2[255];
+	int num;
+	cin>>zcn2;
+	while(trus!=true){
+	int i;
+		int len = strlen(zcn2);
+    for (i = 0; i < len; i++)
+    {
+		if (len==1)	{prntedit();cin>>zcn2;i=-1;len=strlen(zcn2);}
+		else if (!isdigit(zcn2[i])){prntedit();cin>>zcn2;i=0;len=strlen(zcn2);};
+    }trus=true;};
+sscanf(zcn2, "%4d", &num);
+	tempe.population=num;
+	ss[id].population = tempe.population;}break;
+case 4: {cout<<"Type in new code: ";
+		char gent[6];
+	bool wontt = true;
+	cin>>gent;
+	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wontt=false;strncpy(ss[id].code, gent, sizeof(z.code));}};}break;
+};
+	purge();
+	fwrite(ss,sizeof(z),counts,file);
+	fclose(file);
+system("cls");
+choice=2;
+};
+void editing2(Entity s[],int counts,int id){
+id=id-1;
+Entity z;
+int tempi=0;
+int choic;
+Entity tempe;
+cout<<"1 to change name\n2 to change continent\n3 to change population\n4 to change the country code: ";
+
+
+	int num;
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'5' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choic = num;
+
+
+switch(choic){
+case 1: {cout<<"Type in new name: ";
+
+
+		// 1 name 1 entry check
+	cin >> nchar;
+	  bool truth = true;
+	  int n=0;
+	while(truth!=false){
+		while(n<counts){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;};n++;};
+		if (n==counts){truth=false;strcpy(s[id].name,nchar);};
+	};}break;
+
+case 2: {cout<<"Type in new continent: ";
+		// Check for continent correctivity
+	char zcn[255];bool trus=true;
+	cin >> zcn;
+	while(trus!=false){if (zcn[0]<='6' && zcn[0]>='1' && zcn[1]=='\0'){trus=false;} else {cout<<"\nThe continent may be only int from 1 (one) to 6 (six): ";cin>>zcn;};}
+	int num;
+	sscanf(zcn, "%4d", &num);
+	tempe.continent=num;
+	s[id].continent = tempe.continent;}break;
+case 3: {cout<<"Type in new population: ";
+	//Check for population correctivity
+	bool trus=false;
+	char zcn2[255];
+	int num;
+	cin>>zcn2;
+	while(trus!=true){
+	int i;
+		int len = strlen(zcn2);
+    for (i = 0; i < len; i++)
+    {
+		if (len==1)	{prntedit();cin>>zcn2;i=-1;len=strlen(zcn2);}
+		else if (!isdigit(zcn2[i])){prntedit();cin>>zcn2;i=0;len=strlen(zcn2);};
+    }trus=true;};
+sscanf(zcn2, "%4d", &num);
+	tempe.population=num;
+	s[id].population = num;}break;
+case 4: {cout<<"Type in new code: ";
+	char gent[6];
+	bool wontt = true;
+	cin>>gent;
+	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wontt=false;strncpy(s[id].code, gent, sizeof(z.code));}};}break;
+};
+	purge();
+	fwrite(s,sizeof(z),counts,file);
+	fclose(file);
+system("cls");
+choice=2;
+};
+void deleting1(int cnt,int qq)
+{openitup();
+Entity z;
+int tempi=0;
+Entity* ss= new Entity[cnt];
+while(fread(&z, sizeof z, 1, file)) {ss[tempi]=z;tempi++;};
+fclose(file);
+tempi=qq-1;
+while(tempi<cnt){ss[tempi]=ss[tempi+1];tempi++;};
+purge();
+for(int ii=0; ii<cnt-1; ii++){
+	fwrite(&ss[ii],sizeof(Entity),1,file);};
+fclose(file);
+system("cls");
+};
+void deleting2(Entity* s[],int cnt,int qq){
+openitup();
+Entity z;
+int tempi=0;
+Entity* ss= new Entity[cnt];
+while(fread(&z, sizeof z, 1, file)) {ss[tempi]=z;tempi++;};
+fclose(file);
+tempi=qq-1;
+while(tempi<cnt){ss[tempi]=ss[tempi+1];tempi++;};
+purge();
+for(int ii=0; ii<cnt-1; ii++){
+	fwrite(&ss[ii],sizeof(Entity),1,file);};
+fclose(file);
+system("cls");};
+void listing() {
+	int specialchoice,cnt;
+	system("cls");
+	cout<<"Type 1 to query by alphabetical order (A-Z)\n2 for relative order (firstly added firstly shown)\n3 for Continental order (1-6)\n4 to order by population: ";
+	char nchars[255];
+	int num;
+	bool passss=true;
+	cin>>nchars;
+	while(passss!=false){if (nchars[0]>'0' && nchars[0]<'5' && nchars[1]=='\0'){passss=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchars;};
+	
+	sscanf(nchars, "%4d", &num);}
+	specialchoice = num;
+
+	switch(specialchoice){
+	case 1:{
+	system("cls");
+	Entity q;
+	int i = 0;
+	openitup();
+	int cnt=0;
+	  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+	  Entity* s = new Entity[cnt];
+	  fclose(file);
+	  int cnt2=0;
+	  openitup();
+	  while(fread(&q, sizeof q, 1, file)) {s[cnt2]=q;cnt2++;}fclose(file);
+	  {
+	Entity temp;
+	for(int t=0; t<cnt; t++)
+	{
+		for(int i=0; i<cnt2-1; i++)
+		{
+			if(s[i].name[0] > s[i+1].name[0])
+			{temp = s[i];
+			s[i] = s[i+1];
+			s[i+1] = temp;
+			}
+		}
+	}
+}		int sig = 0;
+	  	for(int i=0; i<cnt; i++)
+	{
+		sig++;
+	  printf("Country Number: %i\n",sig);
+	  printf("Name: %s\n", s[i].name);
+	  printf("Continent: %i\n", s[i].continent);
+	  printf("Population: %i\n", s[i].population);
+	  printf("Code: %s\n\n", s[i].code);
+	}
+	  printf("\n\nTotal Countries: %i\n",sig);
+	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
+int choic;
+	  cin>>choic;
+	  switch (choic){
+	  case 1: {cout<<"Type the number of entry you would like to be removed: ";
+		  int qq;
+		  cnt=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+		  fclose(file);
+		  cin>>qq; deleting2(&s,cnt,qq);break;}
+	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 3: {
+		  int qq;
+		  int counts=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {counts++;};
+		  fclose(file);
+		  
+		  cin>>qq;editing2(s,counts,qq);}}}break;
+
+	case 2:{
+	system("cls");
+	Entity q;
+	int i = 1;
+	openitup();
+	  while(fread(&q, sizeof q, 1, file)) {
+	  printf("Country Number: %i\n",i);i++;
+	  printf("Name: %s\n", q.name);
+	  printf("Continent: %i\n", q.continent);
+	  printf("Population: %i\n", q.population);
+	  printf("Code: %s\n\n", q.code);}
+	  printf("\n\nTotal Countries: %i\n",i-1);
+	  
+	  fclose(file);
+	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
+int choic;
+	  cin>>choic;
+	  switch (choic){
+	  case 1: {cout<<"Type the number of entry you would like to be removed (typing in nonexistent number will delete last entry): ";
+		  int qq;
+		  cnt=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+		  fclose(file);
+		  cin>>qq; deleting1(cnt,qq);break;}
+	  case 2: {system("cls");prnt();cin>>choice;}break;
+		case 3: {
+			cout<<"Type the number of country which you would like to edit: ";
+		  int qq;
+		  int counts=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {counts++;};
+		  fclose(file); 
+		  cin>>qq;editing1(counts,qq);}break;
+		   }break;
+		   }
+	
+
+	case 3:{
+	system("cls");
+	Entity q;
+	int i = 0;
+	openitup();
+	cnt=0;
+	  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+	  Entity* s = new Entity[cnt];
+	  int cnt2=0;
+	  rewind(file);
+	  while(fread(&q, sizeof q, 1, file)) {s[cnt2]=q;cnt2++;}fclose(file);
+	  {
+	Entity temp;
+	for(int t=0; t<cnt; t++)
+	{
+		for(int i=0; i<cnt2-1; i++)
+		{
+			if(s[i].continent > s[i+1].continent)
+			{temp = s[i];
+			s[i] = s[i+1];
+			s[i+1] = temp;
+			}
+		}
+	}
+}		int sig = 0;
+	  	for(int i=0; i<cnt; i++)
+	{
+		sig++;
+	  printf("Country Number: %i\n",sig);
+	  printf("Name: %s\n", s[i].name);
+	  printf("Continent: %i\n", s[i].continent);
+	  printf("Population: %i\n", s[i].population);
+	  printf("Code: %s\n\n", s[i].code);
+	}
+	  printf("\n\nTotal Countries: %i\n",sig);
+	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
+int choic;
+	  cin>>choic;
+	  switch (choic){
+	  case 1: {cout<<"Type the number of entry you would like to be removed (typing in nonexistent number will delete last entry): ";
+		  int qq;
+		  cnt=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+		  fclose(file);
+		  cin>>qq; deleting2(&s,cnt,qq);break;}
+	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 3: {
+		  int qq;
+		  int counts=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {counts++;};
+		  fclose(file);
+		  
+		  cin>>qq;editing2(s,counts,qq);}}break;}
+
+//Population order
+case 4:{
+	system("cls");
+	Entity q;
+	int i = 0;
+	openitup();
+	cnt=0;
+	  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+	  Entity* s = new Entity[cnt];
+	  int cnt2=0;
+	  rewind(file);
+	  while(fread(&q, sizeof q, 1, file)) {s[cnt2]=q;cnt2++;}fclose(file);
+	  {
+	Entity temp;
+	for(int t=0; t<cnt; t++)
+	{
+		for(int i=0; i<cnt2-1; i++)
+		{
+			if(s[i].population < s[i+1].population)
+			{temp = s[i];
+			s[i] = s[i+1];
+			s[i+1] = temp;
+			}
+		}
+	}
+}		int sig = 0;
+	  	for(int i=0; i<cnt; i++)
+	{
+		sig++;
+	  printf("Country Number: %i\n",sig);
+	  printf("Name: %s\n", s[i].name);
+	  printf("Continent: %i\n", s[i].continent);
+	  printf("Population: %i\n", s[i].population);
+	  printf("Code: %s\n\n", s[i].code);
+	}
+	  printf("\n\nTotal Countries: %i\n",sig);
+	  cout<<"Type the number of entry you would like to be removed (typing in nonexistent number will delete last entry): ";
+int choic;
+	  cin>>choic;
+	  switch (choic){
+	  case 1: {cout<<"Type the number of entry you would like to be removed:";
+		  int qq;
+		  cnt=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
+		  fclose(file);
+		  cin>>qq; deleting2(&s,cnt,qq);break;}
+	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  	  case 3: {
+		  int qq;
+		  int counts=0;
+		  openitup();
+		  while(fread(&q, sizeof q, 1, file)) {counts++;};
+		  fclose(file);
+		  cin>>qq;editing2(s,counts,qq);}}break;
+}
+		  default: exit(1);
+}
+}

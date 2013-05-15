@@ -49,22 +49,18 @@ void enter(Entity *z){
 	trus=false;
 	char zcn2[255];
 	cin>>zcn2;
-	while(trus!=true){
-	int i;
-		int len = strlen(zcn2);
-    for (i = 0; i < len; i++)
-    {
-		if (len==1)	{cin>>zcn2;i=-1;len=strlen(zcn2);}
-		else if (!isdigit(zcn2[i])){cin>>zcn2;i=0;len=strlen(zcn2);};
-    }trus=true;};
+	int x=0;
+	bool chec=true;
+	while(zcn2[x]!='\0'){if (!isdigit(zcn2[x])){cout<<"Please use only numbers: ";cin>>zcn2;x=0;if(zcn2[1]=='\0'){cout<<"Please use only numbers: ";cin>>zcn2;x=-1;}};x++;};
 sscanf(zcn2, "%4d", &num);
+if (num<0){num=num*-1;};
 	z->population=num;
 	cout <<"Country Code: ";
 	//CODE correctivity
 	char gent[7];
 	bool wont = true;
 	cin>>gent;
-	while (wont!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wont=false;}};
+	while (wont!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wont=false;}};
 	strcpy(z->code,gent);
 	};
 void writing(){
@@ -201,10 +197,6 @@ fclose(file);
 
 switch(choic){
 case 1: {cout<<"Type in new name: ";
-
-
-
-	//cin>>qq;editing2(s,counts,qq);}}}break;
 		cout <<"Name of the country: ";
 	// 1 name 1 entry check
 	cin >> nchar;
@@ -230,23 +222,18 @@ case 3: {cout<<"Type in new population: ";
 	bool trus=false;
 	char zcn2[255];
 	int num;
+	int x=0;
 	cin>>zcn2;
-	while(trus!=true){
-	int i;
-		int len = strlen(zcn2);
-    for (i = 0; i < len; i++)
-    {
-		if (len==1)	{prntedit();cin>>zcn2;i=-1;len=strlen(zcn2);}
-		else if (!isdigit(zcn2[i])){prntedit();cin>>zcn2;i=0;len=strlen(zcn2);};
-    }trus=true;};
+	while(zcn2[x]!='\0'){if (!isdigit(zcn2[x])){cout<<"Please use only numbers: ";cin>>zcn2;x=0;if(zcn2[1]=='\0'){cout<<"Please use only numbers: ";cin>>zcn2;x=-1;}};x++;};
 sscanf(zcn2, "%4d", &num);
+if (num<0){num=num*-1;};
 	tempe.population=num;
 	ss[id].population = tempe.population;}break;
 case 4: {cout<<"Type in new code: ";
 		char gent[6];
 	bool wontt = true;
 	cin>>gent;
-	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wontt=false;strncpy(ss[id].code, gent, sizeof(z.code));}};}break;
+	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wontt=false;strncpy(ss[id].code, gent, sizeof(z.code));}};}break;
 };
 	purge();
 	fwrite(ss,sizeof(z),counts,file);
@@ -300,23 +287,19 @@ case 3: {cout<<"Type in new population: ";
 	bool trus=false;
 	char zcn2[255];
 	int num;
+	int x=0;
 	cin>>zcn2;
-	while(trus!=true){
-	int i;
-		int len = strlen(zcn2);
-    for (i = 0; i < len; i++)
-    {
-		if (len==1)	{prntedit();cin>>zcn2;i=-1;len=strlen(zcn2);}
-		else if (!isdigit(zcn2[i])){prntedit();cin>>zcn2;i=0;len=strlen(zcn2);};
-    }trus=true;};
+	while(zcn2[x]!='\0'){if (!isdigit(zcn2[x])){cout<<"Please use only numbers: ";cin>>zcn2;x=0;if(zcn2[1]=='\0'){cout<<"Please use only numbers: ";cin>>zcn2;x=-1;}};x++;};
 sscanf(zcn2, "%4d", &num);
+if (num<0){num=num*-1;};
 	tempe.population=num;
 	s[id].population = num;}break;
 case 4: {cout<<"Type in new code: ";
 	char gent[6];
 	bool wontt = true;
 	cin>>gent;
-	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols len.:";cin>>gent;}else {wontt=false;strncpy(s[id].code, gent, sizeof(z.code));}};}break;
+	
+	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wontt=false;strncpy(s[id].code, gent, sizeof(z.code));}};}break;
 };
 	purge();
 	fwrite(s,sizeof(z),counts,file);
@@ -356,7 +339,7 @@ system("cls");};
 void listing() {
 	int specialchoice,cnt;
 	system("cls");
-	cout<<"Type 1 to query by alphabetical order (A-Z)\n2 for relative order (firstly added firstly shown)\n3 for Continental order (1-6)\n4 to order by population: ";
+	cout<<"Type 1 To order by alphabetical order (A-Z)\n     2 For relative order (firstly added firstly shown)\n     3 For continental order (1-6)\n     4 To order by population: ";
 	char nchars[255];
 	int num;
 	bool passss=true;
@@ -405,7 +388,14 @@ void listing() {
 	  printf("\n\nTotal Countries: %i\n",sig);
 	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
 int choic;
-	  cin>>choic;
+	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choic = num;
 	  switch (choic){
 	  case 1: {cout<<"Type the number of entry you would like to be removed: ";
 		  int qq;
@@ -414,7 +404,18 @@ int choic;
 		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
 		  fclose(file);
 		  cin>>qq; deleting2(&s,cnt,qq);break;}
-	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 2: {system("cls");prnt();
+		  
+		  	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+		  
+		  ;}break;
 	  case 3: {
 		  int qq;
 		  int counts=0;
@@ -440,7 +441,16 @@ int choic;
 	  fclose(file);
 	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
 int choic;
-	  cin>>choic;
+	  
+	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choic = num;
+
 	  switch (choic){
 	  case 1: {cout<<"Type the number of entry you would like to be removed (typing in nonexistent number will delete last entry): ";
 		  int qq;
@@ -449,7 +459,18 @@ int choic;
 		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
 		  fclose(file);
 		  cin>>qq; deleting1(cnt,qq);break;}
-	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 2: {system("cls");prnt();
+			  
+			  	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+			  
+			  }break;
 		case 3: {
 			cout<<"Type the number of country which you would like to edit: ";
 		  int qq;
@@ -499,7 +520,17 @@ int choic;
 	  printf("\n\nTotal Countries: %i\n",sig);
 	  cout<<"Type 1 to delete entries\n2 to get back to the choosing menu \n3 to edit entry: ";
 int choic;
-	  cin>>choic;
+
+
+	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choic = num;
+
 	  switch (choic){
 	  case 1: {cout<<"Type the number of entry you would like to be removed (typing in nonexistent number will delete last entry): ";
 		  int qq;
@@ -508,8 +539,20 @@ int choic;
 		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
 		  fclose(file);
 		  cin>>qq; deleting2(&s,cnt,qq);break;}
-	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 2: {system("cls");prnt();
+			  
+	int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choice = num;
+			  
+			  }break;
 	  case 3: {
+		  cout<<"Type the number of country which you would like to edit: ";
 		  int qq;
 		  int counts=0;
 		  openitup();
@@ -567,6 +610,7 @@ int choic;
 		  cin>>qq; deleting2(&s,cnt,qq);break;}
 	  case 2: {system("cls");prnt();cin>>choice;}break;
 	  	  case 3: {
+		  cout<<"Type the number of country which you would like to edit: ";
 		  int qq;
 		  int counts=0;
 		  openitup();

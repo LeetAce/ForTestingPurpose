@@ -32,10 +32,10 @@ void enter(Entity *z){
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<cnt){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
+		while(n<cnt){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=-1;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
 		if (n==cnt){truth=false;strcpy(z->name,nchar);};
 	};
-
+	
 	cout <<"Continent: ";
 	// Check for continent correctivity
 	char zcn[255];bool trus=true;
@@ -60,9 +60,10 @@ if (num<0){num=num*-1;};
 	char gent[7];
 	bool wont = true;
 	cin>>gent;
-	while (wont!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wont=false;}};
-	strcpy(z->code,gent);
-	};
+while (wont!=false) {
+	if(gent[6]!='\0' || gent[5]<'0' || gent[5]>'9'){cout<<"Code must be 6 symbols length,and last symbol must be a number:";cin>>gent;}
+	else {strcpy(z->code,gent);wont=false;}}
+};
 void writing(){
 	system("cls");
 	int n;char nchar[255];
@@ -70,7 +71,7 @@ void writing(){
 	int numm;
 	bool pass=true;
 	cin>>nchar;
-	while(pass!=false){if (nchar[0]>='0' && nchar[0]<='5' && nchar[1]=='\0'){pass=false;} else {cout<<"\nThe ability to create one entities at a time is set to 5: ";cin>>nchar;};
+	while(pass!=false){if (nchar[0]>='0' && nchar[0]<='5' && nchar[1]=='\0'){pass=false;} else {cout<<"\nThe ability to create one entities at a time is set to maximum of 5: ";cin>>nchar;};
 	
 	sscanf(nchar, "%4d", &numm);}
 	n = numm;
@@ -83,11 +84,12 @@ void writing(){
 	openitup();
 	fwrite(cnt,sizeof(Entity),n,file);
 	fclose(file);
+	system("cls");
 	prnt();
 	int num;
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
 }
@@ -118,7 +120,7 @@ void special(){
 				int num;
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
 				system("cls");
@@ -144,7 +146,7 @@ void special(){
 				prnt();
 				passs=true;
 				cin>>nchar;
-				while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+				while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 				sscanf(nchar, "%4d", &num);}
 				choice = num;
 					 }
@@ -166,7 +168,7 @@ void special(){
 				int num;
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
 						}
@@ -197,14 +199,13 @@ fclose(file);
 
 switch(choic){
 case 1: {cout<<"Type in new name: ";
-		cout <<"Name of the country: ";
 	// 1 name 1 entry check
 	cin >> nchar;
 	if(nchar[0]>='a'){nchar[0]-=32;};
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<counts){if (strncmp (ss[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
+		while(n<counts){if (strncmp (ss[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=-1;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
 		if (n==counts){truth=false;strcpy(ss[id].name,nchar);};
 	};}break;
 
@@ -233,7 +234,9 @@ case 4: {cout<<"Type in new code: ";
 		char gent[6];
 	bool wontt = true;
 	cin>>gent;
-	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wontt=false;strncpy(ss[id].code, gent, sizeof(z.code));}};}break;
+	while (wontt!=false) {
+		if(gent[6]!='\0' || gent[5]<'0' || gent[5]>'9'){cout<<"Code must be 6 symbols length,and last symbol must be a number:";cin>>gent;}
+		else {wontt=false;strcpy(ss[id].code, gent);}};}break;
 };
 	purge();
 	fwrite(ss,sizeof(z),counts,file);
@@ -269,7 +272,7 @@ case 1: {cout<<"Type in new name: ";
 	  bool truth = true;
 	  int n=0;
 	while(truth!=false){
-		while(n<counts){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=0;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
+		while(n<counts){if (strncmp (s[n].name,nchar,255) == 0){cout<<"Sorry,this country name is already taken,please choose another one: ";n=-1;cin>>nchar;if(nchar[0]>='a'){nchar[0]-=32;};};n++;};
 		if (n==counts){truth=false;strcpy(s[id].name,nchar);};
 	};}break;
 
@@ -297,9 +300,8 @@ if (num<0){num=num*-1;};
 case 4: {cout<<"Type in new code: ";
 	char gent[6];
 	bool wontt = true;
-	cin>>gent;
-	
-	while (wontt!=false) {if(gent[6]!='\0'){cout<<"Code must be 6 symbols length:";cin>>gent;}else {wontt=false;strncpy(s[id].code, gent, sizeof(z.code));}};}break;
+	cin>>gent;	
+	while (wontt!=false){ if(gent[6]!='\0' || gent[5]<'0' || gent[5]>'9'){cout<<"Code must be 6 symbols length,and last symbol must be a number:";cin>>gent;}else {wontt=false;strcpy(s[id].code, gent);}};}break;
 };
 	purge();
 	fwrite(s,sizeof(z),counts,file);
@@ -350,6 +352,7 @@ void listing() {
 	specialchoice = num;
 
 	switch(specialchoice){
+		//// ALPHABETICAL ORDER
 	case 1:{
 	system("cls");
 	Entity q;
@@ -410,7 +413,7 @@ int choic;
 	char nchar[255];
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	bool passs=true;
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
@@ -424,7 +427,7 @@ int choic;
 		  fclose(file);
 		  
 		  cin>>qq;editing2(s,counts,qq);}}}break;
-
+// RELATIVE ORDER
 	case 2:{
 	system("cls");
 	Entity q;
@@ -465,7 +468,7 @@ int choic;
 	char nchar[255];
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	bool passs=true;
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
@@ -545,7 +548,7 @@ int choic;
 	char nchar[255];
 	bool passs=true;
 	cin>>nchar;
-	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'4' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
 	bool passs=true;
 	sscanf(nchar, "%4d", &num);}
 	choice = num;
@@ -608,7 +611,15 @@ int choic;
 		  while(fread(&q, sizeof q, 1, file)) {cnt++;};
 		  fclose(file);
 		  cin>>qq; deleting2(&s,cnt,qq);break;}
-	  case 2: {system("cls");prnt();cin>>choice;}break;
+	  case 2: {system("cls");prnt();
+		  int num;
+	char nchar[255];
+	bool passs=true;
+	cin>>nchar;
+	while(passs!=false){if (nchar[0]>'0' && nchar[0]<'9' && nchar[1]=='\0'){passs=false;} else {cout<<"\nPlease use only given choices: ";cin>>nchar;};
+	bool passs=true;
+	sscanf(nchar, "%4d", &num);}
+	choice = num;}break;
 	  	  case 3: {
 		  cout<<"Type the number of country which you would like to edit: ";
 		  int qq;
